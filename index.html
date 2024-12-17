@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Language Learning Website</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      margin-top: 50px;
+    }
+    .flashcard {
+      background-color: #fff;
+      width: 300px;
+      height: 150px;
+      margin: 20px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      font-size: 24px;
+      cursor: pointer;
+    }
+    .quiz {
+      margin-top: 30px;
+    }
+    .quiz input[type="radio"] {
+      margin-right: 10px;
+    }
+    .quiz button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #82b6a9;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .quiz button:hover {
+      background-color: #de7357;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Learn a New Language!</h1>
+    
+    <!-- Flashcards Section -->
+    <div class="flashcard" id="flashcard" onclick="flipCard()">
+      Word: Bonjour
+    </div>
+
+    <!-- Quiz Section -->
+    <div class="quiz">
+      <h2>What does "Hola" mean?</h2>
+      <label><input type="radio" name="quiz" value="Hello"> Hello</label><br>
+      <label><input type="radio" name="quiz" value="Goodbye"> Goodbye</label><br>
+      <label><input type="radio" name="quiz" value="Thank you"> Thank you</label><br>
+      <button onclick="checkAnswer()">Submit</button>
+      <div class="result" id="result"></div>
+    </div>
+  </div>
+
+  <script>
+    // Flashcard Logic
+    const flashcard = document.getElementById('flashcard');
+    let isFlipped = false;
+    const words = [
+      { word: 'Bonjour', translation: 'Hello' },
+      { word: 'Gracias', translation: 'Thank you' },
+      { word: 'Adiós', translation: 'Goodbye' },
+      { word: 'Merci', translation: 'Thank you' },
+    ];
+    let currentWordIndex = 0;
+
+    function flipCard() {
+      isFlipped = !isFlipped;
+      if (isFlipped) {
+        flashcard.textContent = `Translation: ${words[currentWordIndex].translation}`;
+      } else {
+        flashcard.textContent = `Word: ${words[currentWordIndex].word}`;
+      }
+    }
+
+    flashcard.addEventListener('click', () => {
+      currentWordIndex = (currentWordIndex + 1) % words.length;
+      isFlipped = false;
+      flashcard.textContent = `Word: ${words[currentWordIndex].word}`;
+    });
+
+    // Quiz Logic
+    function checkAnswer() {
+      const selected = document.querySelector('input[name="quiz"]:checked');
+      const result = document.getElementById('result');
+
+      if (!selected) {
+        result.textContent = 'Please select an answer!';
+        result.style.color = 'red';
+        return;
+      }
+
+      if (selected.value === 'Hello') {
+        result.textContent = 'Correct! "Hola" means Hello.';
+        result.style.color = 'green';
+      } else {
+        result.textContent = 'Wrong! Try again.';
+        result.style.color = 'red';
+      }
+    }
+  </script>
+</body>
+</html>
